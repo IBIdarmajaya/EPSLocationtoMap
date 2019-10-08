@@ -1,4 +1,4 @@
-# EPSLocationtoMap S
+# EPSLocationtoMap 
 decode EPSLocationInformation to the Decimal and render it to Map
 
 THe Output Sh interface (please refer to 3GPP TS 29.328 and TS 29.329) contains the EPSLocationInformation
