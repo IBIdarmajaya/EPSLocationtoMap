@@ -9,6 +9,7 @@ and the final Format would be in Decimal Format of MCC MNC ECGI and Map also gen
 # Prerequisite 
 1.in order to request the ECGI/LTE Cell database in towards Unwiredlabs.com (OpenCellId) , user need to sign up to get the Token.
 Without token user can only avail the Decimal format but not get any Map Generated.
+
 2.PERL script with few library is used that easily to get from CPAN.
 
 
