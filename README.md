@@ -18,3 +18,6 @@ perl EPSLocationInformationToMap.pl [E-UTRANCellGlobalId] [Token] -> can get Dec
   
 perl EPSLocationInformationToMap.pl [E-UTRANCellGlobalId] [Token] -> can get Decimal Only without Map in HTML if token is incorrect
 
+#MAP
+The Point where E-NodeB located is not visible with immediate effect, user need to click the 'Layers' in up-right corners and  click
+Thepoints and then Voiiilaaa, Bazingaaaa, you can see the point in the map there.
