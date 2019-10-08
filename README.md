@@ -1,7 +1,7 @@
 # EPSLocationtoMap S
 decode EPSLocationInformation to the Decimal and render it to Map
 
-THe Output Sh interface (please refer to 3GPP TS 29.328 and TS 32.329) contains the EPSLocationInformation
+THe Output Sh interface (please refer to 3GPP TS 29.328 and TS 29.329) contains the EPSLocationInformation
 that presented with encoded to Base64.  
 Unlike common decode that displayed directly in ASCII format, this decoding need to be presented in Hexa Bytes Format.
 and the final Format would be in Decimal Format of MCC MNC ECGI and Map also generated in Decimal format.
