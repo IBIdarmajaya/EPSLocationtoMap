@@ -70,67 +70,51 @@ my $mapheader = '<!DOCTYPE html>
 <html>
 <head>
 	
-	<title>Layers Control Tutorial - Leaflet</title>
+	<title>http://www.ahmadrifky.com/ict-stuff</title>
 
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	
 	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
 
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js" integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA==" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
 
-
-	<style>
-		html, body {
-			height: 100%;
-			margin: 0;
-		}
-		#map {
-			width: 1000px;
-			height: 800px;
-		}
-	</style>
 
 	
 </head>
 <body>
 
-<div id=\'map\'></div>
 
+
+<div id="mapid" style="width: 600px; height: 400px;"></div>
 <script>
-	var thepoints = L.layerGroup();
 
-';
+	var mymap = L.map(\'mapid\').setView([-6.191952,106.897987], 13);
+
+	L.tileLayer(\'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw\', {
+		maxZoom: 18,
+		attribution: \'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, \' +
+			\'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \' +
+			\'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>\',
+		id: \'mapbox.streets\'
+	}).addTo(mymap);';
           
  
 
 
 
-   my $mapfooter1 = 'var mbAttr = \'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, \' +
-			\'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \' +
-			\'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>\',
-		mbUrl = \'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw\';
+   my $mapfooter1 = 'var popup = L.popup();
 
-	var grayscale   = L.tileLayer(mbUrl, {id: \'mapbox.light\', attribution: mbAttr}),
-		streets  = L.tileLayer(mbUrl, {id: \'mapbox.streets\',   attribution: mbAttr});
+	function onMapClick(e) {
+		popup
+			.setLatLng(e.latlng)
+			.setContent("You clicked the map at " + e.latlng.toString())
+			.openOn(mymap);
+	}
 
-	var map = L.map(\'map\', {' ;
+	mymap.on(\'click\', onMapClick);
 
- my $mapfooter2 =' 		zoom: 10,
-		layers: [streets,]
-	});
-
-	var baseLayers = {
-		"Grayscale": grayscale,
-		"Streets": streets
-	};
-
-	var overlays = {
-		"Thepoints": thepoints
-	};
-
-	L.control.layers(baseLayers, overlays).addTo(map);
 </script>
 
 
@@ -140,6 +124,8 @@ my $mapheader = '<!DOCTYPE html>
 ' ;
 
 
+
+ 
 
 $message = "{
     \"token\": \"".$TokenMy."\",
@@ -171,25 +157,20 @@ print $decoded->{'lon'} ;
 
 my $judul = localtime ;
 
-&pretty_print($judul."BTS.html" , $mapheader) ;
 
 if  ($response->is_success) {
-&pretty_print($judul."BTS.html", "L.marker([$decoded->{'lat'}, $decoded->{'lon'}]).bindPopup('$$MCC$MNC$CIcounter;accuracy $decoded->{'accuracy'} meters $decoded->{'address'}').addTo(thepoints);") ;
-$centre = "center: [$decoded->{'lat'},$decoded->{'lon'}]," ;
+&pretty_print($judul."BTS.html",  &myMapHtml('-6.191952','106.897987','510011504005','500')) ;
 }
 
-&pretty_print($judul."BTS.html" , $mapfooter) ;
 
 
 
 #########  penutupan  ###############
 
-&pretty_print($judul."BTS.html" , $mapfooter1) ;
 #		center: [35.7559646,51.2273134],
 
-&pretty_print($judul."BTS.html" , $centre) ;
+#&pretty_print($judul."BTS.html" , $centre) ;
 
-&pretty_print($judul."BTS.html" , $mapfooter2) ;
 
 
 
@@ -206,4 +187,65 @@ chomp $filename;
     close $prettyprint;
 
     return;
+}
+
+sub myMapHtml {
+ my ($lat, $lon, $keterangan, $akurasi) = @_;
+ 
+my $containsnya =  '<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>http://www.ahmadrifky.com/ict-stuff</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+
+
+	
+</head>
+<body>
+
+
+
+<div id="mapid" style="width: 600px; height: 400px;"></div>
+<script>
+
+	var mymap = L.map(\'mapid\').setView(['.$lat.', '.$lon.'], 13);
+
+	L.tileLayer(\'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw\', {
+		maxZoom: 18,
+		attribution: \'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, \' +
+			\'<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, \' +
+			\'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>\',
+		id: \'mapbox.streets\'
+	}).addTo(mymap);
+	
+	L.marker(['.$lat.', '.$lon.']).addTo(mymap).bindPopup('.$keterangan.').openPopup();
+	L.circle(['.$lat.', '.$lon.'], '.$akurasi.', {color: \'red\', fillColor: \'#f03\', fillOpacity: \'0.5\'}).addTo(mymap).bindPopup('.$alamat.');
+ var popup = L.popup();
+
+	function onMapClick(e) {
+		popup
+			.setLatLng(e.latlng)
+			.setContent("You clicked the map at " + e.latlng.toString())
+			.openOn(mymap);
+	}
+
+	mymap.on(\'click\', onMapClick);
+
+</script>
+
+
+
+</body>
+</html>';
+
+return $containsnya ;
+
 }
